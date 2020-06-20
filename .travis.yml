@@ -1,0 +1,24 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t ajaygulani/react-test -f ./client/Dockerfile.dev ./client
+  
+    
+script:
+    - docker run -e CI=true ajaygulani/react-test npm test    
+
+after_success:
+    - docker build -t ajaygulani/multi-client ./client
+    - docker build -t ajaygulani/multi-nginx ./nginx
+    - docker build -t ajaygulani/multi-server ./server
+    - docker build -t ajaygulani/multi-worker ./worker
+    # Login to DOCKER CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+    # Take those images and push then to docker hub
+    - docker push ajaygulani/multi-client
+    - docker push ajaygulani/multi-nginx
+    - docker push ajaygulani/multi-server
+    - docker push ajaygulani/multi-worker
