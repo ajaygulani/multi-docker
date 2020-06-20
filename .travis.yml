@@ -23,15 +23,15 @@ after_success:
     - docker push ajaygulani/multi-server
     - docker push ajaygulani/multi-worker
 
-    deploy:
-        edge: true
-        provider: elasticbeanstalk
-        region: us-east-1
-        app: multi-docker
-        env: MultiDocker-env
-        bucket_name: elasticbeanstalk-us-east-1-265618928411
-        bucket_path: docker-multi
-        on:
-            branch: master
+deploy:
+    edge: true
+    provider: elasticbeanstalk
+    region: us-east-1
+    app: multi-docker
+    env: MultiDocker-env
+    bucket_name: elasticbeanstalk-us-east-1-265618928411
+    bucket_path: docker-multi
+    on:
+        branch: master
         access_key_id: $AWS_ACCESS_KEY
         secret_access_key: $AWS_SECRET_KEY
